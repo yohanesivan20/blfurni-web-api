@@ -13,7 +13,12 @@ import invoiceRoutes from "./routes/invoice.route.js";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
+
+if (!PORT) {
+  console.error("❌ ERROR: PORT is not defined in environment variables.");
+  process.exit(1);
+}
 
 //Middleware
 app.use(cookieParser());
@@ -28,6 +33,12 @@ app.use("/api/products", productRoutes);
 app.use("/api/carts", cartRoutes);
 app.use("/api/invoices", invoiceRoutes);
 
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server running on port ${PORT}`);
+//Tes Route
+app.get('/', (req, res) => {
+    res.send("🚀 Server is up and running");
+});
+
+// Start server
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`✅ Server running on http://0.0.0.0:${PORT}`);
 });
